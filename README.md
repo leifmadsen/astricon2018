@@ -35,7 +35,7 @@ foundation for our OpenShift deployment.
 
     # make sure NetworkManager is installed, enabled, started
     ansible -i ../configs/inventory/inventory.yml -m raw -s \
-        -a "sudo yum install NetworkManager -y ; sudo systemctl enable NetworkManager.service ; sudo systemctl start NetworkManager.service" all
+        --sudo -a "yum install NetworkManager -y ; systemctl enable NetworkManager.service ; systemctl start NetworkManager.service" all
 
 If all has gone well, you should now have all 4 virtual machines up and
 running.
