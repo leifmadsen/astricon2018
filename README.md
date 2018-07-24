@@ -74,6 +74,7 @@ available in the service catalog.
 
 ### Install and setup Docker
 
+    ssh centos@192.168.3.20     # apb-devel.astricon.home.61will.space
     sudo yum install docker -y
     sudo groupadd docker
     sudo usermod -aG docker centos
@@ -82,7 +83,6 @@ available in the service catalog.
 
 ### Install `oc` command
 
-    ssh centos@192.168.3.20     # apb-devel.astricon.home.61will.space
     curl -#SL https://github.com/openshift/origin/releases/download/v3.9.0/openshift-origin-client-tools-v3.9.0-191fece-linux-64bit.tar.gz -O
     tar zxvf openshift-origin<tab>
     mkdir -p ~/.local/bin
