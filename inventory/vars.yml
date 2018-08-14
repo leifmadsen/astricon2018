@@ -39,7 +39,11 @@ virtual_machines:
     node_type: nodes
     system_ram_mb: 16384
     static_ip: 192.168.3.18
-  - name: openshift-node-3
+  - name: openshift-infra-node-3
     node_type: nodes
     system_ram_mb: 8192
     static_ip: 192.168.3.19
+  - name: apb-devel
+    node_type: nodes
+    system_ram_mb: 8192
+    static_ip: 192.168.3.20

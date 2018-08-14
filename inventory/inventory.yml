@@ -2,7 +2,7 @@
 openshift-master ansible_host=192.168.3.16
 openshift-node-1 ansible_host=192.168.3.17
 openshift-node-2 ansible_host=192.168.3.18
-openshift-node-3 ansible_host=192.168.3.19
+openshift-infra-node-3 ansible_host=192.168.3.19
 
 [OSEv3:children]
 masters
@@ -39,8 +39,8 @@ openshift_master_cluster_hostname=master.astricon.home.61will.space
 openshift_master_cluster_public_hostname=console.astricon.home.61will.space
 
 # ansible service broker
-ansible_service_broker_registry_user=dockerhub_username       # XXX: Change this
-ansible_service_broker_registry_password=haha_nope_noway      # XXX: Change this
+#ansible_service_broker_registry_user=dockerhub_username       # XXX: Change this
+#ansible_service_broker_registry_password=haha_nope_noway      # XXX: Change this
 ansible_service_broker_registry_organization=ansibleplaybookbundle
 ansible_service_broker_registry_whitelist=[".*-apb$"]
 ansible_service_broker_local_registry_whitelist=[".*"]
@@ -54,7 +54,7 @@ openshift-master
 [nodes]
 openshift-master openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
 openshift-node-[1:2] openshift_node_labels="{'region': 'primary', 'zone': 'default'}"
-openshift-node-3 openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
+openshift-infra-node-3 openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
 
 [glusterfs]
 openshift-master
