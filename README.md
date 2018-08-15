@@ -8,7 +8,7 @@ We have 4 virtual nodes:
 * openshift-master
 * openshift-node-1
 * openshift-node-2
-* openshift-node-3
+* openshift-infra-node-3
 
 Nodes 1 and 2 are regular compute nodes. Node 3 will act as our infrastructure
 node (inbound traffic to the compute nodes). The master will host the web
