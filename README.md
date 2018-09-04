@@ -89,12 +89,12 @@ available in the service catalog.
     mv openshift-origin-client-tools-v3.9.0-191fece-linux-64bit/oc ~/.local/bin/
     rm -rf openshift-origin-client-tools-v3.9.0-191fece-linux-64bit*
 
-### Install `apb` command
+### Install `apb` and `ansible` command
 
     sudo yum install wget -y
     sudo su -c 'wget https://copr.fedorainfracloud.org/coprs/g/ansible-service-broker/ansible-service-broker-latest/repo/epel-7/group_ansible-service-broker-ansible-service-broker-latest-epel-7.repo -O /etc/yum.repos.d/ansible-service-broker.repo'
     sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-    sudo yum -y install apb
+    sudo yum -y install apb ansible
 
 ### Login to OpenShift
 
@@ -121,8 +121,8 @@ available in the service catalog.
     docker login docker-registry-default.apps.astricon.home.61will.space -u unused -p $(oc whoami -t)
 
     # create an APB
-    apb init leif-testing-apb
-    cd leif-testing-apb
+    ansible-galaxy init --type=apb asterisk15-apb
+    cd asterisk15-apb
 
     # build
     apb build --tag docker-registry-default.apps.astricon.home.61will.space/openshift/leif-testing-apb
