@@ -84,7 +84,7 @@ available in the service catalog.
 ### Install `oc` command
 
     curl -#SL https://github.com/openshift/origin/releases/download/v3.9.0/openshift-origin-client-tools-v3.9.0-191fece-linux-64bit.tar.gz -O
-    tar zxvf openshift-origin<tab>
+    tar zxvf openshift-origin-client-tools-v3.9.0-191fece-linux-64bit.tar.gz
     mkdir -p ~/.local/bin
     mv openshift-origin-client-tools-v3.9.0-191fece-linux-64bit/oc ~/.local/bin/
     rm -rf openshift-origin-client-tools-v3.9.0-191fece-linux-64bit*
