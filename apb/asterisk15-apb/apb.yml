@@ -1,0 +1,13 @@
+version: 1.0.0
+name: asterisk15-apb
+description: Asterisk 15 Deployment
+bindable: False
+async: optional
+metadata:
+  displayName: asterisk15-apb
+plans:
+  - name: default
+    description: This default plan deploys Asterisk 15
+    free: True
+    metadata: {}
+    parameters: []

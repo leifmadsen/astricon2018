@@ -1,0 +1,23 @@
+---
+
+- name: "Update last operation"
+  asb_last_operation:
+    description: "0%: Starting"
+  when: in_cluster
+
+- name: 'Set facts'
+  set_fact:
+    cluster: '{{ "openshift" if "openshift" in lookup("k8s", cluster_info="version") else "kubernetes" }}'
+
+- name: "Set asterisk objects state={{ state }}"
+  k8s:
+    state: "{{ state }}"
+    definition: "{{ lookup('template', item.name) | from_yaml }}"
+  when: item.apply | default(True)
+  loop:
+    - name: deployment.yaml.j2
+
+- name: "Update last operation"
+  asb_last_operation:
+    description: "100%: Done"
+  when: in_cluster

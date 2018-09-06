@@ -1,0 +1,9 @@
+---
+# Defaults for values we could expect from a broker
+_apb_plan_id: default
+_apb_service_class_id: 0
+_apb_service_instance_id: 0
+
+app_name: "asterisk15-apb-{{ _apb_service_instance_id }}"
+app_image: docker.io/nfvpe/asterisk:15.5.0-1
+namespace: "{{ lookup('env','NAMESPACE') | default('asterisk', true) }}"

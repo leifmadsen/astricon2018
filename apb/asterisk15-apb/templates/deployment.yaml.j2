@@ -1,0 +1,34 @@
+# vim: set ft=yaml expandtab shiftwidth=2 tabstop=2 smartindent :
+---
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  creationTimestamp: null
+  name: {{ app_name }}
+  namespace: {{ namespace }}
+  labels:
+    app: {{ app_name }}
+    service: {{ app_name }}
+    service_class_id: '{{ _apb_service_class_id }}'
+    plan_id: '{{ _apb_plan_id }}'
+    service_instance_id: '{{ _apb_service_instance_id }}'
+spec:
+  replicas: 1
+  selector:
+    app: {{ app_name }}
+    service: {{ app_name }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ app_name }}
+        service: {{ app_name }}
+        service_class_id: '{{ _apb_service_class_id }}'
+        plan_id: '{{ _apb_plan_id }}'
+        service_instance_id: '{{ _apb_service_instance_id }}'             
+    spec:
+      containers:
+        - name: asterisk
+          image: {{ app_image }}
+          imagePullPolicy: IfNotPresent
