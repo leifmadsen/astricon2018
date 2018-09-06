@@ -29,6 +29,12 @@ spec:
         service_instance_id: '{{ _apb_service_instance_id }}'             
     spec:
       containers:
-        - name: asterisk
-          image: {{ app_image }}
-          imagePullPolicy: IfNotPresent
+      - name: asterisk
+        image: {{ app_image }}
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - mountPath: /var/spool/asterisk
+          name: var-spool-asterisk
+      volumes:
+      - name: var-spool-asterisk
+        emptyDir: {}
