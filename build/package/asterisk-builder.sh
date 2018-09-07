@@ -37,4 +37,4 @@ buildah unmount $astcontainer
 buildah commit $astcontainer asterisk
 
 # make this available to our local docker process
-buildah push asterisk docker-daemon:astricon2018/asterisk:$version-$build
+buildah push asterisk docker-daemon:nfvpe/asterisk:$version-$build

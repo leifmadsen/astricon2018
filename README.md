@@ -75,11 +75,12 @@ available in the service catalog.
 ### Install and setup Docker
 
     ssh centos@192.168.3.20     # apb-devel.astricon.home.61will.space
-    sudo yum install docker -y
     sudo groupadd docker
     sudo usermod -aG docker centos
     newgrp docker
-    sudo systemctl restart docker.service
+    sudo yum install docker git -y
+    sudo systemctl enable docker.service
+    sudo systemctl start docker.service
 
 ### Install `oc` command
 
@@ -91,7 +92,7 @@ available in the service catalog.
 
 ### Install `apb` and `ansible` command
 
-    sudo yum install wget -y
+    sudo yum -y install wget
     sudo su -c 'wget https://copr.fedorainfracloud.org/coprs/g/ansible-service-broker/ansible-service-broker-latest/repo/epel-7/group_ansible-service-broker-ansible-service-broker-latest-epel-7.repo -O /etc/yum.repos.d/ansible-service-broker.repo'
     sudo yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
     sudo yum -y install apb ansible
@@ -100,38 +101,69 @@ available in the service catalog.
 
     oc login -u admin https://master.astricon.home.61will.space:8443
 
+### Ansible Service Broker Config
+
+    oc project openshift-ansible-service-broker
+    oc edit configmap broker-config
+    # s/sandbox_role: edit/sandbox_role: admin/g
+    oc rollout latest dc/asb
+
 ## APB Creation
 
     # get route of Ansible Service Broker (ASB)
     oc project openshift-ansible-service-broker
     oc get route
 
-    # get route of docker registry for 'default' project
-    oc get route docker-registry -n default
+    # I think this whole section is unnecessary now (TODO: test)
+        # get route of docker registry for 'default' project
+        oc get route docker-registry -n default
 
-    # add the following snippet to /etc/docker/daemon.json
-    {
-        "insecure-registries" : [ "docker-registry-default.apps.astricon.home.61will.space" ]
-    }
+        # add the following snippet to /etc/docker/daemon.json
+        sudo bash -c 'cat > /etc/docker/daemon.json <<EOF
+        {
+            "insecure-registries" : [ "docker-registry-default.apps.astricon.home.61will.space" ]
+        }
+        EOF'
 
-    # restart Docker service
-    sudo systemctl restart docker.service
+        # restart Docker service
+        sudo systemctl restart docker.service
 
-    # login to the registry
-    docker login docker-registry-default.apps.astricon.home.61will.space -u unused -p $(oc whoami -t)
+        # login to the registry (no longer necessary)
+        #docker login docker-registry-default.apps.astricon.home.61will.space -u unused -p $(oc whoami -t)
+
+    # APB configuration
+    $ apb config
+    Broker namespace [default: openshift-automation-service-broker]: openshift-ansible-service-broker
+    Broker resource URL [default: /apis/servicecatalog.k8s.io/v1beta1/clusterservicebrokers/]: 
+    Broker route name [default: broker]: asb-1338
+    clusterservicebroker resource name [default: openshift-automation-service-broker]: ansible-service-broker
+    Broker route suffix [default: osb]: ansible-service-broker
+
+    git clone https://github.com/leifmadsen/astricon2018
+    cd astricon2018/apb/asterisk15-apb
+    apb bundle prepare
+    oc project openshift
+    oc new-build --binary=true --name asterisk15-apb
+    oc start-build --follow --from-dir . asterisk15-apb
+
+# Create a new APB
 
     # create an APB
     ansible-galaxy init --type=apb asterisk15-apb
     cd asterisk15-apb
 
-    # build
-    apb build --tag docker-registry-default.apps.astricon.home.61will.space/openshift/leif-testing-apb
+    # prepare
+    apb bundle prepare
 
-    # push
-    docker push docker-registry-default.apps.astricon.home.61will.space/openshift/leif-testing-apb
+    # create build (only needed once)
+    oc project openshift
+    oc new-build --binary=true --name leif-testing-apb
+
+    # build
+    oc start-build --follow --from-dir . leif-testing-apb
 
     # reload catalog
-    apb bootstrap --broker asb-1338-openshift-ansible-service-broker.apps.astricon.home.61will.space/ansible-service-broker
+    apb broker bootstrap
 
     # view catalog items
     apb list --broker asb-1338-openshift-ansible-service-broker.apps.astricon.home.61will.space/ansible-service-broker
