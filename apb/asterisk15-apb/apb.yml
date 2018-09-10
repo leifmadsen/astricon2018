@@ -1,4 +1,4 @@
-version: 1.0.0
+version: 1.15
 name: asterisk15-apb
 description: Asterisk 15 Deployment
 bindable: False
