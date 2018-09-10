@@ -1,0 +1,32 @@
+---
+state_map:
+  provision: present
+  deprovision: absent
+state: "{{ state_map[apb_action] }}"
+
+deployment_lookup: "{{
+  lookup(
+    'k8s',
+    api_version='apps.openshift.io/v1',
+    kind='DeploymentConfig',
+    namespace=namespace,
+    resource_name=app_name
+  ) if cluster == 'openshift' else lookup(
+    'k8s',
+    api_version='apps/v1',
+    kind='Deployment',
+    namespace=namespace,
+    resource_name=app_name
+  )
+}}"
+
+# Variables to hold queries
+available_status_query: "status.conditions[?type == 'Available'].status"
+deployment_query: "{{
+  deployment_lookup | json_query(available_status_query) | first | bool
+}}"
+
+# Whether we are in a cluster or not.
+pod_name: "{{ lookup('env', 'POD_NAME') }}"
+pod_namespace: "{{ lookup('env', 'POD_NAMESPACE') }}"
+in_cluster: "{{ True if (pod_name and pod_namespace) else False }}"

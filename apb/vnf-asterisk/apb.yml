@@ -1,0 +1,15 @@
+version: 1.1
+name: vnf-asterisk-apb
+description: deploys vnf-asterisk application
+bindable: False
+async: optional
+metadata:
+  displayName: vnf-asterisk-apb
+  longDescription:
+      Deployment of the VNF Asterisk demo from AstriCon 2017
+plans:
+  - name: default
+    description: This default plan deploys VNF Asterisk
+    free: True
+    metadata: {}
+    parameters: []
