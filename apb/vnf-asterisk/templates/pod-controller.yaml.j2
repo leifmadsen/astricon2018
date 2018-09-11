@@ -1,0 +1,32 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: controller-{{ uniqname }}
+  namespace: {{ namespace | string }}
+  labels:
+    app: {{ app_name }}
+    service: {{ app_name }}
+    service_class_id: '{{ _apb_service_class_id }}'
+    plan_id: '{{ _apb_plan_id }}'
+    service_instance_id: '{{ _apb_service_instance_id }}'
+spec:
+  containers:
+    - name: controller
+      image: dougbtv/vnf-asterisk-controller
+      imagePullPolicy: IfNotPresent
+      command:
+        - nodemon
+        - vnf-asterisk-controller.js
+      volumeMounts:
+        - mountPath: /vac/includes
+          name: config
+  volumes:
+    - name: config
+      configMap:
+        name: controller-config-{{ uniqname }}
+        items:
+          - key: config.json
+            path: config.json
+  # nodeSelector:
+  #   voiptype: tandem

@@ -1,0 +1,16 @@
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  creationTimestamp: null
+  name: env-config-{{ uniqname }}
+  namespace: {{ namespace | string }}
+  labels:
+    app: {{ app_name }}
+    service: {{ app_name }}
+    service_class_id: '{{ _apb_service_class_id }}'
+    plan_id: '{{ _apb_plan_id }}'
+    service_instance_id: '{{ _apb_service_instance_id }}'
+data:
+  TARGET_INTERFACE: "eth0"
+  ETCD_HOSTNAME: "etcd-client"
