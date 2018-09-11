@@ -14,21 +14,26 @@ metadata:
   name: etcd1-{{ uniqname }}
   namespace: {{ namespace | string }}
 spec:
+  securityContext:
+    nonroot: true
+  restartPolicy: Never
   containers:
   - command:
     - /usr/local/bin/etcd
     - --name
     - etcd1
+    - --data-dir 
+    - /data
     - --initial-advertise-peer-urls
-    - http://etcd1:2380
+    - http://etcd1-{{ uniqname }}:2380
     - --listen-peer-urls
     - http://0.0.0.0:2380
     - --listen-client-urls
     - http://0.0.0.0:2379
     - --advertise-client-urls
-    - http://etcd1:2379
+    - http://etcd1-{{ uniqname }}:2379
     - --initial-cluster
-    - etcd0=http://etcd0:2380,etcd1=http://etcd1:2380,etcd2=http://etcd2:2380
+    - etcd0=http://etcd0-{{ uniqname }}:2380,etcd1=http://etcd1-{{ uniqname }}:2380,etcd2=http://etcd2-{{ uniqname }}:2380
     - --initial-cluster-state
     - new
     image: quay.io/coreos/etcd:latest
@@ -40,4 +45,9 @@ spec:
     - containerPort: 2380
       name: server
       protocol: TCP
-  restartPolicy: Never
+    volumeMounts:
+      - mountPath: /data
+        name: etcd
+  volumes:
+    - name: etcd
+      emptyDir: {}

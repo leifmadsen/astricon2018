@@ -12,13 +12,20 @@ metadata:
     service_instance_id: '{{ _apb_service_instance_id }}'
     app_selector: vnfui
 spec:
+  securityContext:
+    nonroot: true
   containers:
     - name: vnfui
       image: dougbtv/vnf-asterisk-nginx
       imagePullPolicy: IfNotPresent
+      ports:
+        - container_port: 8080
+          protocol: TCP
       volumeMounts:
         - mountPath: /vac/www/dist/config
           name: config
+        - mountPath: /var/cache/nginx
+          name: cache-volume
   volumes:
     - name: config
       configMap:
@@ -26,5 +33,7 @@ spec:
         items:
           - key: config.js
             path: config.js
+    - name: cache-volume
+      emptyDir: {}
   # nodeSelector:
   #   voiptype: tandem

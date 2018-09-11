@@ -32,6 +32,8 @@ spec:
           volumeMounts:
             - mountPath: /etc/asterisk/
               name: config
+            - mountPath: /var/run/asterisk
+              name: var-run-asterisk
           envFrom:
           - configMapRef:
              name: env-config-{{ uniqname }}
@@ -48,6 +50,8 @@ spec:
       # nodeSelector:
       #   voiptype: tandem
       volumes:
+        - name: var-run-asterisk
+          emptyDir: {}
         - name: config
           configMap:
             name: asterisk-vanilla-config-{{ uniqname }}

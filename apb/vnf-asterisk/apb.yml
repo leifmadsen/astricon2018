@@ -1,13 +1,13 @@
 ---
 version: 1.2
 name: vnf-asterisk-apb
-description: deploys vnf-asterisk application
+description: Deploys VNF Asterisk from AstriCon 2017
 bindable: False
 async: optional
 metadata:
   displayName: vnf-asterisk-apb
   longDescription:
-      Deployment of the VNF Asterisk
+      Deployment of the VNF Asterisk for AstriCon 2018
   imageUrl: http://shifteight.org/vnf-asterisk.png
 plans:
   - name: default
@@ -15,14 +15,5 @@ plans:
     free: True
     metadata:
       displayName: Default
-      longDescription: Default plan for VNF Asterisk deployments
-    parameters:
-      - title: OpenShift Admin User
-        name: admin_user
-        type: string
-        required: true
-      - title: OpenShift Admin Password
-        name: admin_password
-        type: string
-        required: true
-        display_type: password
+      longDescription: Default plan for VNF Asterisk deployment from AstriCon 2017
+    parameters: []

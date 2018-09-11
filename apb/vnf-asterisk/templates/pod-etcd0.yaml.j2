@@ -9,26 +9,31 @@ metadata:
     service_class_id: '{{ _apb_service_class_id }}'
     plan_id: '{{ _apb_plan_id }}'
     service_instance_id: '{{ _apb_service_instance_id }}'
-    etcd_node: etcd0
     app_selector: etcd
+    etcd_node: etcd0
   name: etcd0-{{ uniqname }}
   namespace: {{ namespace | string }}
 spec:
+  securityContext:
+    nonroot: true
+  restartPolicy: Never
   containers:
   - command:
     - /usr/local/bin/etcd
     - --name
     - etcd0
+    - --data-dir 
+    - /data
     - --initial-advertise-peer-urls
-    - http://etcd0:2380
+    - http://etcd0-{{ uniqname }}:2380
     - --listen-peer-urls
     - http://0.0.0.0:2380
     - --listen-client-urls
     - http://0.0.0.0:2379
     - --advertise-client-urls
-    - http://etcd0:2379
+    - http://etcd0-{{ uniqname }}:2379
     - --initial-cluster
-    - etcd0=http://etcd0:2380,etcd1=http://etcd1:2380,etcd2=http://etcd2:2380
+    - etcd0=http://etcd0-{{ uniqname }}:2380,etcd1=http://etcd1-{{ uniqname }}:2380,etcd2=http://etcd2-{{ uniqname }}:2380
     - --initial-cluster-state
     - new
     image: quay.io/coreos/etcd:latest
@@ -40,4 +45,9 @@ spec:
     - containerPort: 2380
       name: server
       protocol: TCP
-  restartPolicy: Never
+    volumeMounts:
+      - name: etcd
+        mountPath: /data
+  volumes:
+    - name: etcd
+      emptyDir: {}

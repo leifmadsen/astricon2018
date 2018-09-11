@@ -14,10 +14,10 @@ metadata:
 data:
   nginx.conf: | 
     server {
-      listen       80;
+      listen       8080;
       server_name  localhost;
       location / {
-          root   /vac/www/dist;
+          root   /var/www/dist;
           index  index.html index.htm;
       }
       error_page   500 502 503 504  /50x.html;

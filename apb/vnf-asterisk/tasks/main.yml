@@ -10,11 +10,11 @@
     cluster: '{{ "openshift" if "openshift" in lookup("k8s", cluster_info="version") else "kubernetes" }}'
     uniqname: '{{ _apb_service_instance_id.split("-")[0] | lower }}'
 
-- name: Login to OpenShift
-  shell: "oc login -u {{ admin_user }} -p {{ admin_password }}"
-  when: cluster == "openshift"
-        and admin_user is defined
-        and admin_password is defined
+#- name: Login to OpenShift
+#  shell: "oc login -u {{ admin_user }} -p {{ admin_password }}"
+#  when: cluster == "openshift"
+#        and admin_user is defined
+#        and admin_password is defined
 
 - name: "Set asterisk objects state={{ state }}"
   k8s:

@@ -11,6 +11,8 @@ metadata:
     plan_id: '{{ _apb_plan_id }}'
     service_instance_id: '{{ _apb_service_instance_id }}'
 spec:
+  securityContext:
+    nonroot: true
   containers:
     - name: controller
       image: dougbtv/vnf-asterisk-controller
@@ -21,6 +23,8 @@ spec:
       volumeMounts:
         - mountPath: /vac/includes
           name: config
+        - mountPath: /.config
+          name: dot-config
   volumes:
     - name: config
       configMap:
@@ -28,5 +32,7 @@ spec:
         items:
           - key: config.json
             path: config.json
+    - name: dot-config
+      emptyDir: {}
   # nodeSelector:
   #   voiptype: tandem
