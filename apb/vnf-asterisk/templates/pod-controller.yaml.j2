@@ -10,6 +10,7 @@ metadata:
     service_class_id: '{{ _apb_service_class_id }}'
     plan_id: '{{ _apb_plan_id }}'
     service_instance_id: '{{ _apb_service_instance_id }}'
+    app_selector: controller-{{ uniqname }}
 spec:
   securityContext:
     nonroot: true

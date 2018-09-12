@@ -19,6 +19,6 @@ spec:
     protocol: TCP
     targetPort: 8001
   selector:
-    app: controller-{{ uniqname }}
+    app_selector: controller-{{ uniqname }}
 status:
   loadBalancer: {}
