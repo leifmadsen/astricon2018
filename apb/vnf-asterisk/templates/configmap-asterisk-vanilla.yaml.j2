@@ -217,6 +217,9 @@ data:
       curl -s -L -X PUT http://$ETCD_HOSTNAME:2379/v2/keys/asterisk/$UUID/nickname -d value="$ADVERTISE_NICKNAME"
     fi
 
+    # copy configmap temp files into /etc/asterisk
+    cp /tmp/asterisk-configs/* /etc/asterisk/
+
     # Update hep.conf 
     random_hep_id=$RANDOM
     sed -i -e "s/HEP_CAPTURE_ID/$random_hep_id/" /etc/asterisk/hep.conf

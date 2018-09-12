@@ -1,6 +1,7 @@
+# vim: set tabstop=2 shiftwidth=2 ft=yaml smartindent expandtab :
 ---
-apiVersion: extensions/v1beta1
-kind: Deployment
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
 metadata:
   creationTimestamp: null
   name: {{ app_name }}
@@ -27,30 +28,45 @@ spec:
     spec:
       containers:
         - name: asterisk
-          image: dougbtv/asterisk14
+          image: nfvpe/asterisk:15.5.0-2
           imagePullPolicy: IfNotPresent
           volumeMounts:
-            - mountPath: /etc/asterisk/
+            - mountPath: /tmp/asterisk-configs
               name: config
-            - mountPath: /var/run/asterisk
-              name: var-run-asterisk
+            - mountPath: /etc/asterisk
+              name: etc-asterisk
+            - mountPath: /var/run/
+              name: var-run
+            - mountPath: /var/lib/asterisk
+              name: var-lib-asterisk
+            - mountPath: /var/spool/asterisk
+              name: var-spool-asterisk
           envFrom:
           - configMapRef:
              name: env-config-{{ uniqname }}
           command:
             - "/bin/bash"
             - "-c"
-            - "cat /etc/asterisk/entrypoint.sh | /bin/bash"
-        - name: captagent
-          image: dougbtv/homer-captagent
-          imagePullPolicy: IfNotPresent
-          args:
-            - "--capturehost"
-            - "kamailio"
+            - "cat /tmp/asterisk-configs/entrypoint.sh | /bin/bash"
+#        - name: captagent
+#          image: dougbtv/homer-captagent
+#          imagePullPolicy: IfNotPresent
+#          args:
+#            - "--capturehost"
+#            - "kamailio"
+#          volumeMounts:
+#            - mountPath: /var/run/
+#              name: var-run
       # nodeSelector:
       #   voiptype: tandem
       volumes:
-        - name: var-run-asterisk
+        - name: var-run
+          emptyDir: {}
+        - name: var-lib-asterisk
+          emtpyDir: {}
+        - name: etc-asterisk
+          emptyDir: {}
+        - name: var-spool-asterisk
           emptyDir: {}
         - name: config
           configMap:
