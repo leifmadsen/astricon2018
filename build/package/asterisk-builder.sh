@@ -8,14 +8,14 @@ build=${2:-3}
 astcontainer=$(buildah from scratch)
 astmount=$(buildah mount $astcontainer)
 
-# NOTE: unfortunately release 29 fails to run during a scriptlet on the info package 
+# install bash and prerequisites
 dnf install --disablerepo=* --enablerepo=fedora --enablerepo=updates \
-    --assumeyes --installroot $astmount --releasever=27 \
+    --assumeyes --installroot $astmount --releasever=29 \
     bash coreutils curl sed perl iproute \
     --setopt install_weak_deps=false \
     --setopt tsflags=nodocs
 
-dnf clean all --assumeyes --installroot $astmount --releasever=27
+dnf clean all --assumeyes --installroot $astmount --releasever=29
 
 # install Asterisk, pjsip, and HEP
 dnf install --disablerepo=* --enablerepo=fedora --enablerepo=updates \
