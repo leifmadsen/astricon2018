@@ -10,7 +10,7 @@ metadata:
     service_class_id: '{{ _apb_service_class_id }}'
     plan_id: '{{ _apb_plan_id }}'
     service_instance_id: '{{ _apb_service_instance_id }}'
-    app_selector: vnfui
+    app_selector: vnfui-{{ uniqname }}
 spec:
   containers:
     - name: vnfui
@@ -24,6 +24,8 @@ spec:
           name: config
         - mountPath: /var/cache/nginx
           name: cache-volume
+        - mountPath: /var/run
+          name: var-run
   volumes:
     - name: config
       configMap:
@@ -32,6 +34,8 @@ spec:
           - key: config.js
             path: config.js
     - name: cache-volume
+      emptyDir: {}
+    - name: var-run
       emptyDir: {}
   # nodeSelector:
   #   voiptype: tandem
