@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name: asterisk
-          image: nfvpe/asterisk:15.5.0-2
+          image: {{ app_image }}
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - mountPath: /tmp/asterisk-configs
