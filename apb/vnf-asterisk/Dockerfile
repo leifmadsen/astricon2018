@@ -1,6 +1,6 @@
 FROM ansibleplaybookbundle/apb-base
 
-COPY playbooks/* /opt/apb/actions/
+COPY playbooks/* /opt/apb/project/
 COPY inventory /etc/ansible/hosts
 COPY . /opt/ansible/roles/vnf-asterisk-apb
 RUN chmod -R g=u /opt/{ansible,apb}

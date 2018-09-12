@@ -12,14 +12,12 @@ metadata:
     service_instance_id: '{{ _apb_service_instance_id }}'
     app_selector: vnfui
 spec:
-  securityContext:
-    nonroot: true
   containers:
     - name: vnfui
-      image: dougbtv/vnf-asterisk-nginx
+      image: nfvpe/vnf-asterisk-nginx:latest
       imagePullPolicy: IfNotPresent
       ports:
-        - container_port: 8080
+        - containerPort: 8080
           protocol: TCP
       volumeMounts:
         - mountPath: /vac/www/dist/config
