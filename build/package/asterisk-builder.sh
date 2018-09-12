@@ -2,7 +2,7 @@
 
 # set default version and build if not passed via arguments
 version=${1:-15.5.0}
-build=${2:-2}
+build=${2:-3}
 
 # start building from a scratch container
 astcontainer=$(buildah from scratch)
@@ -11,7 +11,7 @@ astmount=$(buildah mount $astcontainer)
 # NOTE: unfortunately release 29 fails to run during a scriptlet on the info package 
 dnf install --disablerepo=* --enablerepo=fedora --enablerepo=updates \
     --assumeyes --installroot $astmount --releasever=27 \
-    bash coreutils curl sed \
+    bash coreutils curl sed perl iproute \
     --setopt install_weak_deps=false \
     --setopt tsflags=nodocs
 

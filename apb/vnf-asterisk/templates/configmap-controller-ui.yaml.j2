@@ -15,6 +15,6 @@ data:
   config.js: |
     var env = {
       environment_name: "kubernetes_config",
-      api_url: 'http://controller-{{ uniqname }}:8001',
+      api_url: 'http://controller-{{ uniqname }}-{{ namespace | string }}.apps.astricon.home.61will.space',
     };
 
