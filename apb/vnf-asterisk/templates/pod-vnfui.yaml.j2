@@ -15,7 +15,7 @@ spec:
   containers:
     - name: vnfui
       image: nfvpe/vnf-asterisk-nginx:latest
-      imagePullPolicy: IfNotPresent
+      imagePullPolicy: Always
       ports:
         - containerPort: 8080
           protocol: TCP
