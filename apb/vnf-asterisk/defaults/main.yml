@@ -4,6 +4,6 @@ _apb_plan_id: default
 _apb_service_class_id: 0
 _apb_service_instance_id: 0
 
-app_name: "vnf-asterisk-apb-{{ _apb_service_instance_id }}"
+app_name: "vnf-asterisk-apb-{{ _apb_service_instance_id.split('-')[0] }}"
 app_image: docker.io/nfvpe/asterisk:15.5.0-3
 namespace: "{{ lookup('env','NAMESPACE') | default('asterisk', true) }}"
