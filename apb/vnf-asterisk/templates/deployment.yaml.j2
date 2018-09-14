@@ -48,15 +48,15 @@ spec:
             - "/bin/bash"
             - "-c"
             - "cat /tmp/asterisk-configs/entrypoint.sh | /bin/bash"
-#        - name: captagent
-#          image: dougbtv/homer-captagent
-#          imagePullPolicy: IfNotPresent
-#          args:
-#            - "--capturehost"
-#            - "kamailio"
-#          volumeMounts:
-#            - mountPath: /var/run/
-#              name: var-run
+        - name: captagent
+          image: dougbtv/homer-captagent
+          imagePullPolicy: IfNotPresent
+          args:
+            - "--capturehost"
+            - "kamailio"
+          volumeMounts:
+            - mountPath: /var/run/
+              name: var-run
       # nodeSelector:
       #   voiptype: tandem
       volumes:
