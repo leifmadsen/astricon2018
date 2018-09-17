@@ -101,13 +101,6 @@ available in the service catalog.
 
     oc login https://master.astricon.home.61will.space:8443 -u admin -p welcome --insecure-skip-tls-verify=true
 
-### Ansible Service Broker Config
-
-    oc project openshift-ansible-service-broker
-    oc edit configmap broker-config
-    # s/sandbox_role: edit/sandbox_role: admin/g
-    oc rollout latest dc/asb
-
 ## APB Creation
 
     # get route of Ansible Service Broker (ASB)
