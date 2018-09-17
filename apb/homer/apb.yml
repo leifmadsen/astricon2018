@@ -1,0 +1,19 @@
+---
+version: 1.0
+name: homer-apb
+description: Deploys Homer from AstriCon 2017
+bindable: False
+async: optional
+metadata:
+  displayName: Homer (APB)
+  longDescription:
+      Deployment of Homer for AstriCon 2018
+  imageUrl: https://camo.githubusercontent.com/19d0a5edf56d34d154ff3e3403a938ecfd3d0dd2/687474703a2f2f692e696d6775722e636f6d2f656c546266777a2e706e67
+plans:
+  - name: default
+    description: This default plan deploys Homer
+    free: True
+    metadata:
+      displayName: Default
+      longDescription: Default plan for Homer deployment from AstriCon 2017
+    parameters: []

@@ -1,0 +1,37 @@
+---
+
+- name: "Update last operation"
+  asb_last_operation:
+    description: "0%: Starting"
+  when: in_cluster
+
+- name: 'Set facts'
+  set_fact:
+    cluster: '{{ "openshift" if "openshift" in lookup("k8s", cluster_info="version") else "kubernetes" }}'
+    uniqname: '{{ _apb_service_instance_id.split("-")[0] | lower }}'
+
+- name: "Set homer objects state={{ state }}"
+  k8s:
+    state: "{{ state }}"
+    definition: "{{ lookup('template', item.name) | from_yaml }}"
+  when: item.apply | default(True)
+  loop:
+    - name: configmap-env-config.yaml.j2
+    - name: service-bootstrap.yaml.j2
+    - name: service-cron.yaml.j2
+    - name: service-kamailio.yaml.j2
+    - name: service-mysql.yaml.j2
+    - name: service-webapp.yaml.j2
+    - name: pvc-homer-data-dashboard.yaml.j2
+    - name: pvc-homer-data-mysql.yaml.j2
+    - name: pvc-homer-data-semaphore.yaml.j2
+    - name: job-bootstrap.yaml.j2
+    - name: deployment-mysql.yaml.j2
+    - name: deployment-homer.yaml.j2
+    - name: deployment-kamailio.yaml.j2
+    - name: deployment-webapp.yaml.j2
+
+- name: "Update last operation"
+  asb_last_operation:
+    description: "100%: Done"
+  when: in_cluster

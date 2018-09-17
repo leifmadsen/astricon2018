@@ -1,14 +1,13 @@
 FROM ansibleplaybookbundle/apb-base
 
 COPY playbooks/* /opt/apb/project/
-COPY inventory /etc/ansible/hosts
 COPY . /opt/ansible/roles/vnf-asterisk-apb
 RUN chmod -R g=u /opt/{ansible,apb}
 
 USER apb
 
 LABEL "com.redhat.apb.spec"=\
-"LS0tCnZlcnNpb246IDEuMgpuYW1lOiB2bmYtYXN0ZXJpc2stYXBiCmRlc2NyaXB0aW9uOiBEZXBs\
+"LS0tCnZlcnNpb246IDEuMApuYW1lOiB2bmYtYXN0ZXJpc2stYXBiCmRlc2NyaXB0aW9uOiBEZXBs\
 b3lzIFZORiBBc3RlcmlzayBmcm9tIEFzdHJpQ29uIDIwMTcKYmluZGFibGU6IEZhbHNlCmFzeW5j\
 OiBvcHRpb25hbAptZXRhZGF0YToKICBkaXNwbGF5TmFtZTogdm5mLWFzdGVyaXNrLWFwYgogIGxv\
 bmdEZXNjcmlwdGlvbjoKICAgICAgRGVwbG95bWVudCBvZiB0aGUgVk5GIEFzdGVyaXNrIGZvciBB\

@@ -1,0 +1,36 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  creationTimestamp: null
+  name: bootstrap
+  namespace: {{ namespace | string }}
+spec:
+  template:
+    metadata:
+      creationTimestamp: null
+      name: bootstrap
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: bootstrap-mysql
+        command:
+          - "/bin/bash"
+          - "-c"
+          - "./bootstrap.sh && echo Bootstrapped @ $(date) > /homer-semaphore/.bootstrapped"
+        envFrom:
+          - configMapRef:
+             name: homer-env-config
+        image: dougbtv/homer-bootstrap-data
+        resources: {}
+        volumeMounts:
+        - mountPath: /homer-semaphore/
+          name: homer-data-semaphore
+        - mountPath: /
+          name: mysql-status
+      volumes:
+      - name: homer-data-semaphore
+        persistentVolumeClaim:
+          claimName: homer-data-semaphore
+      - name: mysql-status
+        emptyDir: {}

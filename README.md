@@ -1,3 +1,5 @@
+[modeline]: # ( vim: set tabstop=4 shiftwidth=4 expandtab smartindent fenc=utf-8 spell spl=en: )
+
 # astricon2018
 Notes and files for AstriCon 2018 Day Of Learning
 
@@ -146,3 +148,6 @@ available in the service catalog.
 
     # view catalog items
     apb broker catalog
+
+    # build registry
+    apb registry add openshift --namespaces default,openshift --type local_openshift

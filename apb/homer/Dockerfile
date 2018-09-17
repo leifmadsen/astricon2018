@@ -1,0 +1,20 @@
+FROM ansibleplaybookbundle/apb-base
+
+COPY playbooks/* /opt/apb/project/
+COPY . /opt/ansible/roles/homer-apb
+RUN chmod -R g=u /opt/{ansible,apb}
+
+USER apb
+
+LABEL "com.redhat.apb.spec"=\
+"LS0tCnZlcnNpb246IDEuMApuYW1lOiBob21lci1hcGIKZGVzY3JpcHRpb246IERlcGxveXMgSG9t\
+ZXIgZnJvbSBBc3RyaUNvbiAyMDE3CmJpbmRhYmxlOiBGYWxzZQphc3luYzogb3B0aW9uYWwKbWV0\
+YWRhdGE6CiAgZGlzcGxheU5hbWU6IEhvbWVyIChBUEIpCiAgbG9uZ0Rlc2NyaXB0aW9uOgogICAg\
+ICBEZXBsb3ltZW50IG9mIEhvbWVyIGZvciBBc3RyaUNvbiAyMDE4CiAgaW1hZ2VVcmw6IGh0dHBz\
+Oi8vY2Ftby5naXRodWJ1c2VyY29udGVudC5jb20vMTlkMGE1ZWRmNTZkMzRkMTU0ZmYzZTM0MDNh\
+OTM4ZWNmZDNkMGRkMi82ODc0NzQ3MDNhMmYyZjY5MmU2OTZkNjc3NTcyMmU2MzZmNmQyZjY1NmM1\
+NDYyNjY3NzdhMmU3MDZlNjcKcGxhbnM6CiAgLSBuYW1lOiBkZWZhdWx0CiAgICBkZXNjcmlwdGlv\
+bjogVGhpcyBkZWZhdWx0IHBsYW4gZGVwbG95cyBIb21lcgogICAgZnJlZTogVHJ1ZQogICAgbWV0\
+YWRhdGE6CiAgICAgIGRpc3BsYXlOYW1lOiBEZWZhdWx0CiAgICAgIGxvbmdEZXNjcmlwdGlvbjog\
+RGVmYXVsdCBwbGFuIGZvciBIb21lciBkZXBsb3ltZW50IGZyb20gQXN0cmlDb24gMjAxNwogICAg\
+cGFyYW1ldGVyczogW10K"

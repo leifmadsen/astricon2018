@@ -1,0 +1,47 @@
+---
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  creationTimestamp: null
+  name: webapp
+  namespace: {{ namespace | string }}
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: webapp
+    spec:
+      initContainers:
+      - name: init-webapp
+        image: centos:centos7
+        command: ['/bin/bash', '-c', 'if [[ ! -f "/homer-semaphore/.bootstrapped" ]]; then exit 1; else exit 0; fi']
+        volumeMounts:
+        - mountPath: /homer-semaphore/
+          name: homer-data-semaphore
+      containers:
+      - name: homer-webapp
+        envFrom:
+          - configMapRef:
+             name: homer-env-config
+        image: dougbtv/homer-webapp
+        ports:
+        - containerPort: 80
+        resources: {}
+        volumeMounts:
+        - mountPath: /homer-semaphore/
+          name: homer-data-semaphore
+        # - mountPath: /var/www/html/store/dashboard/
+        #   name: homer-data-dashboard
+      restartPolicy: Always
+      volumes:
+      - name: homer-data-semaphore
+        persistentVolumeClaim:
+          claimName: homer-data-semaphore
+      # - name: homer-data-dashboard
+      #   persistentVolumeClaim:
+      #     claimName: homer-data-dashboard
+status: {}

@@ -1,5 +1,5 @@
 ---
-version: 1.2
+version: 1.0
 name: vnf-asterisk-apb
 description: Deploys VNF Asterisk from AstriCon 2017
 bindable: False

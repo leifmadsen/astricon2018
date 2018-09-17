@@ -1,0 +1,45 @@
+---
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  creationTimestamp: null
+  name: cron
+  namespace: {{ namespace | string }}
+  labels:
+    app: {{ app_name }}
+    service: {{ app_name }}
+    service_class_id: '{{ _apb_service_class_id }}'
+    plan_id: '{{ _apb_plan_id }}'
+    service_instance_id: '{{ _apb_service_instance_id }}'
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        service: cron
+    spec:
+      initContainers:
+      - name: init-cron
+        image: centos:centos7
+        command: ['/bin/bash', '-c', 'if [[ ! -f "/homer-semaphore/.bootstrapped" ]]; then exit 1; else exit 0; fi']
+        volumeMounts:
+        - mountPath: /homer-semaphore/
+          name: homer-data-semaphore
+      containers:
+      - name: homer-cron
+        envFrom:
+          - configMapRef:
+              name: homer-env-config
+        image: dougbtv/homer-cron
+        resources: {}
+        volumeMounts:
+        - mountPath: /homer-semaphore/
+          name: homer-data-semaphore
+      restartPolicy: Always
+      volumes:
+      - name: homer-data-semaphore
+        persistentVolumeClaim:
+          claimName: homer-data-semaphore
