@@ -5,7 +5,7 @@ description: Deploys VNF Asterisk from AstriCon 2017
 bindable: False
 async: optional
 metadata:
-  displayName: vnf-asterisk-apb
+  displayName: VNF Asterisk (APB)
   longDescription:
       Deployment of the VNF Asterisk for AstriCon 2018
   imageUrl: http://shifteight.org/vnf-asterisk.png
